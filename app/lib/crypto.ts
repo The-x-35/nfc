@@ -44,6 +44,9 @@ export async function encryptWithPIN(
   // Generate random 12-byte IV (nonce) for GCM
   const iv = crypto.getRandomValues(new Uint8Array(12));
   
+  // Ensure data is a proper ArrayBuffer for Web Crypto API
+  const dataBuffer = new Uint8Array(data).buffer;
+  
   // Encrypt with AES-256-GCM
   const encrypted = await crypto.subtle.encrypt(
     {
@@ -52,7 +55,7 @@ export async function encryptWithPIN(
       tagLength: 128, // 16-byte authentication tag
     },
     key,
-    data
+    dataBuffer
   );
 
   // Combine IV + encrypted data (includes auth tag at the end)
