@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 interface NavbarProps {
   currentPage: string;
@@ -19,6 +20,7 @@ const writeOptions = [
 const navItems = [
   { id: 'read', label: 'Read' },
   { id: 'wallet', label: 'Wallet' },
+  { id: 'smartaccounts', label: 'Smart Accounts', isLink: true },
 ];
 
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
@@ -45,17 +47,27 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => onNavigate(item.id)}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                  currentPage === item.id
-                    ? item.id === 'wallet' ? 'bg-purple-500 text-white' : 'bg-cyan-500 text-white'
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </button>
+              item.isLink ? (
+                <Link
+                  key={item.id}
+                  href={`/${item.id}`}
+                  className="px-4 py-2 rounded-lg font-medium transition-colors bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white hover:from-violet-400 hover:to-fuchsia-400"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  key={item.id}
+                  onClick={() => onNavigate(item.id)}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    currentPage === item.id
+                      ? item.id === 'wallet' ? 'bg-purple-500 text-white' : 'bg-cyan-500 text-white'
+                      : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                </button>
+              )
             ))}
 
             {/* Write Dropdown */}
@@ -139,6 +151,14 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
             >
               Solana Wallet
             </button>
+
+            <Link
+              href="/smartaccounts"
+              className="block w-full text-left px-4 py-3 rounded-lg font-medium transition-colors mt-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Smart Accounts
+            </Link>
             
             <div className="mt-2 text-slate-500 text-sm px-4 py-2">Write Options</div>
             {writeOptions.map((option) => (

@@ -430,7 +430,8 @@ interface NDEFReader {
 
 interface NDEFRecordInit {
   recordType: string;
-  data?: string;
+  data?: string | BufferSource;
+  mediaType?: string;
   lang?: string;
 }
 
