@@ -9,6 +9,7 @@ import WriteEmail from './components/WriteEmail';
 import WritePhone from './components/WritePhone';
 import WriteSMS from './components/WriteSMS';
 import WriteWiFi from './components/WriteWiFi';
+import SolanaWallet from './components/SolanaWallet';
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState('read');
@@ -17,6 +18,8 @@ export default function Home() {
     switch (currentPage) {
       case 'read':
         return <ReadNFC />;
+      case 'wallet':
+        return <SolanaWallet />;
       case 'write-text':
         return <WriteText />;
       case 'write-url':

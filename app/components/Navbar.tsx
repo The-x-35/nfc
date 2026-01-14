@@ -16,6 +16,11 @@ const writeOptions = [
   { id: 'wifi', label: 'WiFi' },
 ];
 
+const navItems = [
+  { id: 'read', label: 'Read' },
+  { id: 'wallet', label: 'Wallet' },
+];
+
 export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
   const [isWriteOpen, setIsWriteOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -39,16 +44,19 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            <button
-              onClick={() => onNavigate('read')}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                currentPage === 'read'
-                  ? 'bg-cyan-500 text-white'
-                  : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-              }`}
-            >
-              Read
-            </button>
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => onNavigate(item.id)}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  currentPage === item.id
+                    ? item.id === 'wallet' ? 'bg-purple-500 text-white' : 'bg-cyan-500 text-white'
+                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
 
             {/* Write Dropdown */}
             <div className="relative">
@@ -116,6 +124,20 @@ export default function Navbar({ currentPage, onNavigate }: NavbarProps) {
               }`}
             >
               Read NFC
+            </button>
+
+            <button
+              onClick={() => {
+                onNavigate('wallet');
+                setIsMobileMenuOpen(false);
+              }}
+              className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors mt-1 ${
+                currentPage === 'wallet'
+                  ? 'bg-purple-500 text-white'
+                  : 'text-slate-300 hover:bg-slate-800'
+              }`}
+            >
+              Solana Wallet
             </button>
             
             <div className="mt-2 text-slate-500 text-sm px-4 py-2">Write Options</div>
